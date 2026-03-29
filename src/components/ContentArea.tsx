@@ -33,9 +33,9 @@ export const ContentArea: React.FC<ContentAreaProps> = ({
   };
 
   return (
-    <div className="flex-1 flex flex-col h-screen overflow-hidden bg-white lg:pl-80">
+    <div className="flex-1 flex flex-col h-screen overflow-hidden bg-white lg:pl-80 print:pl-0 print:h-auto print:overflow-visible print:block">
       {/* Header */}
-      <header className="flex-shrink-0 bg-white border-b border-gray-200 px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between sticky top-0 z-30">
+      <header className="flex-shrink-0 bg-white border-b border-gray-200 px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between sticky top-0 z-30 print:hidden">
         <div className="flex items-center">
           <button
             onClick={onOpenSidebar}
@@ -59,6 +59,7 @@ export const ContentArea: React.FC<ContentAreaProps> = ({
             onClick={handlePrint}
             className="p-2 text-gray-500 hover:text-idss-blue hover:bg-blue-50 rounded-md transition-colors"
             title="Print this section"
+            aria-label="Print this section"
           >
             <Printer size={20} />
           </button>

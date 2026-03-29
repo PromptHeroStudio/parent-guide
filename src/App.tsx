@@ -58,20 +58,26 @@ export default function App() {
       }
 
       if (e.key === 'ArrowLeft') {
-        handlePrevious();
+        setActiveSectionId(prevId => {
+          const idx = guideContent.findIndex(s => s.id === prevId);
+          return idx > 0 ? guideContent[idx - 1].id : prevId;
+        });
       } else if (e.key === 'ArrowRight') {
-        handleNext();
+        setActiveSectionId(prevId => {
+          const idx = guideContent.findIndex(s => s.id === prevId);
+          return idx < guideContent.length - 1 ? guideContent[idx + 1].id : prevId;
+        });
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handlePrevious, handleNext]);
+  }, []);
 
   return (
     <>
       {showSplash && (
-        <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-idss-blue">
+        <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-idss-blue print:hidden">
           <div className="relative w-full h-full flex flex-col items-center justify-center p-4">
             <img 
               src="https://i.postimg.cc/bN0zFTTs/Cover.jpg" 
@@ -88,7 +94,7 @@ export default function App() {
         </div>
       )}
       
-      <div className="flex h-screen overflow-hidden bg-gray-50 font-sans relative">
+      <div className="flex h-screen overflow-hidden bg-gray-50 font-sans relative print:h-auto print:overflow-visible">
         <Sidebar
           sections={filteredSections}
           activeSectionId={activeSectionId}

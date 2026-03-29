@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { GoogleGenAI, Chat } from '@google/genai';
 import { MessageCircle, X, Send, Loader2, Bot, User } from 'lucide-react';
+import DOMPurify from 'dompurify';
 import { guideContent } from '../data/guideContent';
 import { extractTextFromNode } from '../utils/textUtils';
 
@@ -126,7 +127,7 @@ Here is the complete Parent Guide for 2026/2027 (which includes Mission, Vision,
       {/* Floating Action Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className={`fixed bottom-6 right-6 p-4 bg-idss-blue text-white rounded-full shadow-lg hover:bg-idss-blue-hover transition-all transform hover:scale-105 z-40 ${isOpen ? 'scale-0 opacity-0' : 'scale-100 opacity-100'}`}
+        className={`fixed bottom-6 right-6 p-4 bg-idss-blue text-white rounded-full shadow-lg hover:bg-idss-blue-hover transition-all transform hover:scale-105 z-40 print:hidden ${isOpen ? 'scale-0 opacity-0' : 'scale-100 opacity-100'}`}
         aria-label="Open chat"
       >
         <MessageCircle size={28} />
@@ -134,7 +135,7 @@ Here is the complete Parent Guide for 2026/2027 (which includes Mission, Vision,
 
       {/* Chat Window */}
       <div 
-        className={`fixed bottom-6 right-6 w-[380px] h-[600px] max-h-[80vh] max-w-[calc(100vw-3rem)] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden z-50 transition-all duration-300 origin-bottom-right ${isOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0 pointer-events-none'}`}
+        className={`fixed bottom-6 right-6 w-[380px] h-[600px] max-h-[80vh] max-w-[calc(100vw-3rem)] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden z-50 transition-all duration-300 origin-bottom-right print:hidden ${isOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0 pointer-events-none'}`}
       >
         {/* Header */}
         <div className="bg-idss-blue text-white p-4 flex items-center justify-between flex-shrink-0">
@@ -150,6 +151,7 @@ Here is the complete Parent Guide for 2026/2027 (which includes Mission, Vision,
           <button 
             onClick={() => setIsOpen(false)}
             className="p-1 hover:bg-white/10 rounded-md transition-colors"
+            aria-label="Close chat"
           >
             <X size={20} />
           </button>
@@ -182,7 +184,7 @@ Here is the complete Parent Guide for 2026/2027 (which includes Mission, Vision,
                   ) : (
                     <div 
                       className="[&>*:last-child]:mb-0 [&_a]:underline" 
-                      dangerouslySetInnerHTML={{ __html: msg.text }} 
+                      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(msg.text) }} 
                     />
                   )}
                 </div>
@@ -213,12 +215,14 @@ Here is the complete Parent Guide for 2026/2027 (which includes Mission, Vision,
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Type your question..."
+              aria-label="Type your question"
               className="flex-1 p-3 bg-gray-100 border-transparent rounded-xl focus:bg-white focus:border-idss-blue focus:ring-2 focus:ring-blue-200 transition-all outline-none text-sm"
               disabled={isLoading}
             />
             <button
               type="submit"
               disabled={!input.trim() || isLoading}
+              aria-label="Send message"
               className="p-3 bg-idss-blue text-white rounded-xl hover:bg-idss-blue-hover disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex-shrink-0"
             >
               <Send size={18} />

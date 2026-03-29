@@ -33,7 +33,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       
       {/* Sidebar */}
       <div className={`
-        fixed inset-y-0 left-0 z-50 w-80 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out flex flex-col
+        fixed inset-y-0 left-0 z-50 w-80 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out flex flex-col print:hidden
         ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
         <div className="p-4 border-b border-gray-200 flex items-center justify-between bg-idss-blue text-white">
@@ -43,7 +43,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </div>
             <h1 className="font-bold text-white text-lg m-0">Parent Guide</h1>
           </div>
-          <button onClick={onClose} className="lg:hidden p-2 text-white/80 hover:bg-white/10 rounded-md">
+          <button onClick={onClose} className="lg:hidden p-2 text-white/80 hover:bg-white/10 rounded-md" aria-label="Close sidebar">
             <X size={20} />
           </button>
         </div>
@@ -54,10 +54,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <input
               type="text"
               placeholder="Search guide..."
+              aria-label="Search guide"
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-idss-gold focus:border-transparent transition-all"
+              className="w-full pl-10 pr-10 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-idss-gold focus:border-transparent transition-all"
             />
+            {searchQuery && (
+              <button
+                onClick={() => onSearchChange('')}
+                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-gray-600 hover:bg-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-idss-gold transition-colors"
+                aria-label="Clear search"
+              >
+                <X size={16} />
+              </button>
+            )}
           </div>
         </div>
         

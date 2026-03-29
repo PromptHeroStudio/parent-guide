@@ -27,3 +27,25 @@
   th { @apply bg-gray-100 font-semibold text-idss-blue; }
   a { @apply text-idss-blue hover:text-idss-gold transition-colors; }
 }
+
+@media print {
+  html, body {
+    height: auto !important;
+    overflow: visible !important;
+    background-color: white !important;
+  }
+  
+  #root {
+    height: auto !important;
+    overflow: visible !important;
+  }
+  
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  @page {
+    margin: 2cm;
+  }
+}
